@@ -8,16 +8,6 @@
     <artifactId>HomeworkStart</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-
-
-<!--    <distributionManagement>-->
-<!--        <repository>-->
-<!--            <id>internal.repo</id>-->
-<!--            <name>Internal repo</name>-->
-<!--            <url>file:///home/thara/testesb/in</url>-->
-<!--        </repository>-->
-<!--    </distributionManagement>-->
-
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -26,11 +16,33 @@
 
     <build>
         <plugins>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.0.0-M5</version>
                 <configuration>
+
+                    <systemProperties>
+                        <property>
+                            <name>mail</name>
+                            <value>${mail}</value>
+                        </property>
+                        <property>
+                            <name>password</name>
+                            <value>${password}</value>
+                        </property>
+                    </systemProperties>
+
                     <skipTests>false</skipTests>
                 </configuration>
             </plugin>

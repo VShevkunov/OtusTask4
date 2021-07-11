@@ -15,6 +15,7 @@ import static scripts.WebDriverName.*;
 public class WebDriverFactory {
 
     public static WebDriver create(WebDriverName webDriverName){
+
         switch (webDriverName){
             case CHROME:
                 WebDriverManager.chromedriver().setup();

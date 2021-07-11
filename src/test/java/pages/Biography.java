@@ -11,13 +11,10 @@ public class Biography extends AbstractPage {
         super(driver);
     }
 
-    public Personal personal(){
+    public Personal getPersonal(){
         driver.findElement(personal).click();
         logger.info("Вызван раздел ПЕРСОНАЛЬНЫЕ ДАННЫЕ");
         return new Personal(driver);
     }
-
-
-
 
 }

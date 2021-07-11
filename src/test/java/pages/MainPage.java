@@ -4,9 +4,10 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import sun.rmi.runtime.Log;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import scripts.OtusTest;
+//import scripts.OtusTest;
 
-import java.util.ArrayList;
 
 public class MainPage extends AbstractPage {
 
@@ -16,10 +17,10 @@ public class MainPage extends AbstractPage {
     private By passwordField = By.xpath("//input[@placeholder='Введите пароль' and @type='password']");
     private By logIn = By.xpath("//button[@type='submit' and contains(text(), 'Войти')]");
 
+
     public MainPage(WebDriver driver) {
         super(driver);
     }
-
 
     public MainPage open() {
         driver.get(URL);
@@ -28,14 +29,18 @@ public class MainPage extends AbstractPage {
 
     public MainPage logIn() {
 
+        WebDriverWait wait = new WebDriverWait(driver, 20);
+
         driver.findElement(auth).click();
         logger.info("Нажата кнопка ВХОД ИЛИ РЕГИСТРАЦИЯ");
 
-        driver.findElement(emailField).sendKeys("recafa9892@paseacuba.com");
-        logger.info("Вставлен логин");
+        wait.until(ExpectedConditions.elementToBeClickable(emailField));
 
-        driver.findElement(passwordField).sendKeys("password3197");
-        logger.info("Вставлен пароль");
+        driver.findElement(emailField).sendKeys(OtusTest.email);
+        logger.info("Вставлен логин {}", OtusTest.email);
+
+        driver.findElement(passwordField).sendKeys(OtusTest.password);
+        logger.info("Вставлен пароль {}", OtusTest.password);
 
         driver.findElement(logIn).click();
         logger.info("Нажата кнопка ВОЙТИ");
