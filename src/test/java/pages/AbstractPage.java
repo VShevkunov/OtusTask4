@@ -15,7 +15,7 @@ public abstract class AbstractPage {
 
     private By avatar = By.xpath("//div[@class='header2-menu__icon-img ic-blog-default-avatar']");
     protected WebDriver driver;
-    protected Logger logger = LogManager.getLogger(this.getClass());
+    protected Logger logger = LogManager.getLogger(this.getClass());  //универсальный предок всех логеров
 
     TestConfig cfg = ConfigFactory.create(TestConfig.class);
 

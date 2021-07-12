@@ -1,6 +1,5 @@
 package scripts;
 
-import org.aeonbits.owner.ConfigFactory;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.junit.After;
@@ -12,10 +11,15 @@ import pages.MainPage;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
+//Класс для запуска теста личного кабинета OTUS
+//Обязательноые параметры для запуска: -Demail, -Dpassword, -Dbrowser (в любом регистре)
+//Например: mvn -Dtest=OtusTest -Demail=recafa9892@paseacuba.com -Dpassword=password3197 -Dbrowser=Chrome clean test
+
 public class OtusTest {
 
-    protected static String email;
-    protected static String password;
+    public static String email;
+    public static String password;
+    public static WebDriverName webDriverName;
     protected WebDriver driver;
     private Logger logger = LogManager.getLogger(OtusTest.class);
 
@@ -28,11 +32,14 @@ public class OtusTest {
         password = System.getProperty("password");
         logger.info("Считан из консоли пароль: {}", password);
 
+        webDriverName = WebDriverName.valueOf(System.getProperty("browser").toUpperCase());
+        logger.info("Считано из консоли имя браузера: {}", webDriverName.name());
+
         int timeout = 3; //переменная для неявного ожидания
-        driver = WebDriverFactory.create(WebDriverName.CHROME);
+        driver = WebDriverFactory.create(webDriverName);
         driver.manage().timeouts().implicitlyWait(timeout, TimeUnit.SECONDS);
         driver.manage().window().maximize();
-        logger.info("Драйвер запущен, установлено неявное ожидание = {} сек", timeout);
+        logger.info("Драйвер для браузера {} запущен, установлено неявное ожидание = {} сек", webDriverName.name(), timeout);
 
     }
 
@@ -48,7 +55,7 @@ public class OtusTest {
                 .getPersonal()
                 .putAll(); //заполнить все поля (почти все) в соответствии с конфигом
 
-        newInstanceBrowser(WebDriverName.CHROME); //открыть чистый браузер
+        newInstanceBrowser(webDriverName); //открыть чистый браузер
 
         new MainPage(driver)
                 .open()
