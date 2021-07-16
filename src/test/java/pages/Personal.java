@@ -29,6 +29,7 @@ public class Personal extends AbstractPage {
     private By birthDate = By.xpath("//input[@name='date_of_birth']");
     private By country = By.xpath("//input[@name='country']/following-sibling::*"); // /*
     private By city = By.xpath("//input[@name='city']/following-sibling::*");
+    private By cityList = By.xpath("//input[@name='city']/parent::*/following-sibling::*/child::*/button");
     private By englishLevel = By.xpath("//input[@name='english_level']/following-sibling::*");
     private By workRegime = By.xpath("//input[@name='work_schedule' and @title='" + cfg.workRegime() + "']/parent::*");
     private By readyToRelocate = By.xpath("//input[@type='radio' and @value='" + cfg.readyToRelocate() + "']/parent::*");
@@ -172,11 +173,16 @@ public class Personal extends AbstractPage {
     }
 
     public Personal setCity(String city) {
-        WebElement a = driver.findElement(this.city);
-        scrollWithOffset(a, 0, -200);
-        logger.info("Проскролил к элементу");
 
-        wait.until(ExpectedConditions.elementToBeClickable(this.city)).click();
+        wait.until(ExpectedConditions.numberOfElementsToBeMoreThan(cityList, 1));
+        logger.info("Найдено больше одного элемента в списке городов (кроме \"не выбран\")");
+
+        wait.until(ExpectedConditions.elementToBeClickable(this.city));
+        logger.info("element кликабелен");
+
+        driver.findElement(this.city).click();
+        logger.info("нажали на поле выбора города");
+
         wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//button[@title='" + city + "']"))).click();
         logger.info("Заполнен город");
         return this;
